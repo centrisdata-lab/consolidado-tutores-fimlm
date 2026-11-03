@@ -60,13 +60,13 @@ main { max-width:1180px; margin:0 auto; padding:28px 28px 64px; }
 .zp-btn { display:flex; align-items:center; gap:14px; text-align:left; padding:16px 18px; min-height:76px;
   background:var(--white); color:var(--blue); border:2px solid var(--border); border-radius:16px; }
 .zp-btn:hover { border-color:var(--blue-mid); transform:translateY(-2px); box-shadow:0 8px 22px rgba(26,60,110,0.12); }
-.zp-ico { width:44px; height:44px; flex-shrink:0; border-radius:12px; background:var(--blue-light); color:var(--blue); display:flex; align-items:center; justify-content:center; }
+.zp-ico { width:48px; height:48px; flex-shrink:0; border-radius:12px; background:var(--blue-light); display:flex; align-items:center; justify-content:center; font-size:1.5rem; line-height:1; }
 .zp-txt { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
 .zp-txt b { font-size:1rem; font-weight:900; line-height:1.25; }
 .zp-txt small { font-size:0.78rem; font-weight:700; color:var(--muted); }
 .zp-arrow { font-size:1.6rem; font-weight:900; color:var(--muted); line-height:1; }
 .zp-btn.active { background:var(--blue); border-color:var(--blue); color:#fff; box-shadow:0 6px 18px rgba(26,60,110,0.28); }
-.zp-btn.active .zp-ico { background:rgba(255,255,255,0.16); color:#fff; }
+.zp-btn.active .zp-ico { background:#ffffff; }
 .zp-btn.active .zp-txt small { color:#cfdcf1; }
 .zp-btn.active .zp-arrow { color:var(--orange); }
 .zp-sec { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; padding-top:12px; border-top:1px dashed var(--border); }
@@ -173,7 +173,7 @@ footer { text-align:center; font-size:0.74rem; color:var(--muted); font-weight:7
   <b>“¿Qué destacaría?”</b> y <b>“¿Qué mejoraría?”</b>. Cada respuesta se leyó completa y se agrupó por temas.</p>
   <nav class="zona-picker" aria-label="Zonas">
     <div class="zp-label">Elige una zona <span>· 2 zonas disponibles</span></div>
-    <div class="zp-grid"><button class="dash-tab zp-btn" data-tab="san"><span class="zp-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></span><span class="zp-txt"><b>Santanderes, Boyacá y Cesar</b><small>45 respuestas · 40 tutores</small></span><span class="zp-arrow">›</span></button><button class="dash-tab zp-btn" data-tab="car"><span class="zp-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></span><span class="zp-txt"><b>Zona Caribe</b><small>50 respuestas · 47 tutores</small></span><span class="zp-arrow">›</span></button></div>
+    <div class="zp-grid"><button class="dash-tab zp-btn" data-tab="san" data-icono="⛰️"><span class="zp-ico" aria-hidden="true">⛰️</span><span class="zp-txt"><b>Santanderes, Boyacá y Cesar</b><small>45 respuestas · 40 tutores</small></span><span class="zp-arrow">›</span></button><button class="dash-tab zp-btn" data-tab="car" data-icono="🌊"><span class="zp-ico" aria-hidden="true">🌊</span><span class="zp-txt"><b>Zona Caribe</b><small>50 respuestas · 47 tutores</small></span><span class="zp-arrow">›</span></button></div>
     <div class="zp-sec">
       <button class="dash-tab zp-mini" data-tab="compara">📊 Comparación entre zonas</button>
       <button class="dash-tab zp-mini" data-tab="metodo">🔎 Cómo se hizo</button>
@@ -339,7 +339,9 @@ Considero que nos hizo falta promover más el uso de la mesa de ayuda en el Camp
     // Título de lo que se está viendo, para no perder de vista en qué zona se está
     const b = document.querySelector('.dash-tab[data-tab="' + id + '"]');
     const t = b.querySelector('b');
-    document.getElementById('zona-actual').textContent = t ? t.textContent : b.textContent.replace(/^\W+/, '');
+    document.getElementById('zona-actual').textContent = t
+      ? (b.dataset.icono ? b.dataset.icono + ' ' : '') + t.textContent
+      : b.textContent.trim();
   }
   tabs.forEach(b => b.addEventListener('click', () => { abrir(b.dataset.tab); history.replaceState(null, '', '#' + b.dataset.tab); }));
   window.addEventListener('hashchange', () => abrir(location.hash.slice(1)));
